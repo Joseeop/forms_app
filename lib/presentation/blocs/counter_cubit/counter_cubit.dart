@@ -1,12 +1,14 @@
 
 
 
+import 'package:equatable/equatable.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'counter_state.dart';
 
 class CounterCubit extends Cubit<CounterState> {
-  CounterCubit() : super(CounterState(counter: 5));
+  CounterCubit() : super(const CounterState(counter: 5));
 
   void inscreaseBy(int value){
     emit(state.copyWith(
