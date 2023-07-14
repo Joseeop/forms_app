@@ -7,13 +7,13 @@ enum FormStatus{valid, invalid, validating, posting}
   final FormStatus formStatus;
   final bool isValid;
   final Username username;
-  final String email;
+  final Email email;
   final Password password;
 
   const RegisterFormState({
     this.formStatus = FormStatus.invalid,
     this.username= const Username.pure(), 
-    this.email ='', 
+    this.email = const Email.pure(), 
     this.password =const Password.pure(),
     this.isValid=false,
     });
@@ -21,7 +21,7 @@ enum FormStatus{valid, invalid, validating, posting}
     RegisterFormState copyWith({
        FormStatus? formStatus,
        Username? username,
-       String? email,
+       Email? email,
        Password? password,
        final bool? isValid,
     }) => RegisterFormState(

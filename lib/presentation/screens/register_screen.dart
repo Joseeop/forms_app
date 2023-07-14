@@ -61,12 +61,12 @@ class _RegisterForm extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 30,),
+
+
             CustomTextFormField(
               label: 'Nombre de usuario',
               onChanged: registerCubit.usernameChanged,
-              errorMessage: username.isPure || username.isValid
-              ? null
-              : 'Usuario no válido'
+              errorMessage: username.errorMessage
               
               //  (value) {
               //   registerCubit.usernameChanged(value);
@@ -84,41 +84,25 @@ class _RegisterForm extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
+
+
             CustomTextFormField(
               label: 'Correo electrónico',
-              onChanged: (value) {
-                registerCubit.emailChanged(value);
-                //Cada vez que el usuario escribe algo valida su estado, en tiempo real
-                
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) return 'Campo requerido';
-                if (value.trim().isEmpty) return 'Campo requerido';
-                final emailRegExp = RegExp(
-                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                );
-
-                if(!emailRegExp.hasMatch(value)) return 'No tiene formato de correo';
-                return null;
-              },
+              onChanged: registerCubit.emailChanged,
+              errorMessage: email.errorMessage,
             ),
+
+
             const SizedBox(
               height: 10,
             ),
+
+
             CustomTextFormField(
                 label: 'Contraseña',
                 obscureText: true,
-                onChanged: (value) {
-                registerCubit.passwordChanged(value);
-                //Cada vez que el usuario escribe algo valida su estado, en tiempo real
-                
-              },
-                validator: (value) {
-                if (value == null || value.isEmpty) return 'Campo requerido';
-                if (value.trim().isEmpty) return 'Campo requerido';
-                if (value.length < 6) return 'Mínimo 6 caracteres';
-                return null;
-              },
+                onChanged: registerCubit.passwordChanged,
+                errorMessage: password.errorMessage
               ),
                 
             const SizedBox(
