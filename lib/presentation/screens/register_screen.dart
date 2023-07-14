@@ -46,39 +46,40 @@ class _RegisterView extends StatelessWidget {
   }
 }
 
-class _RegisterForm extends StatefulWidget {
+class _RegisterForm extends StatelessWidget {
   const _RegisterForm();
-
-  @override
-  State<_RegisterForm> createState() => _RegisterFormState();
-}
-
-class _RegisterFormState extends State<_RegisterForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
- 
 
   @override
   Widget build(BuildContext context) {
 
     final registerCubit = context.watch<RegisterCubit>();
+    final username = registerCubit.state.username;
+    final password = registerCubit.state.password;
+    final email = registerCubit.state.email;
     return Form(
-        key: _formKey,
+        
         child: Column(
           children: [
             const SizedBox(height: 30,),
             CustomTextFormField(
               label: 'Nombre de usuario',
-              onChanged: (value) {
-                registerCubit.usernameChanged(value);
-                //Cada vez que el usuario escribe algo valida su estado, en tiempo real
-                _formKey.currentState?.validate();
-              },
+              onChanged: registerCubit.usernameChanged,
+              errorMessage: username.isPure || username.isValid
+              ? null
+              : 'Usuario no válido'
+              
+              //  (value) {
+              //   registerCubit.usernameChanged(value);
+              //Cada vez que el usuario escribe algo valida su estado, en tiempo real
+                
+              // },
+              /* El mismo cubit valida estos campos en la clase username.dart
               validator: (value) {
                 if (value == null || value.isEmpty) return 'Campo requerido';
                 if (value.trim().isEmpty) return 'Campo requerido';
                 if (value.length < 6) return 'Mínimo 6 caracteres';
                 return null;
-              },
+              },*/
             ),
             const SizedBox(
               height: 10,
@@ -88,7 +89,7 @@ class _RegisterFormState extends State<_RegisterForm> {
               onChanged: (value) {
                 registerCubit.emailChanged(value);
                 //Cada vez que el usuario escribe algo valida su estado, en tiempo real
-                _formKey.currentState?.validate();
+                
               },
               validator: (value) {
                 if (value == null || value.isEmpty) return 'Campo requerido';
@@ -110,7 +111,7 @@ class _RegisterFormState extends State<_RegisterForm> {
                 onChanged: (value) {
                 registerCubit.passwordChanged(value);
                 //Cada vez que el usuario escribe algo valida su estado, en tiempo real
-                _formKey.currentState?.validate();
+                
               },
                 validator: (value) {
                 if (value == null || value.isEmpty) return 'Campo requerido';
@@ -125,8 +126,8 @@ class _RegisterFormState extends State<_RegisterForm> {
             ),
             FilledButton.tonalIcon(
               onPressed: () {
-                final isValid = _formKey.currentState!.validate();
-                if (!isValid) return;
+                
+                
 
                 registerCubit.onSubmit();
               },
